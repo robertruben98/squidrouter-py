@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "squidrouter-py"
+version = "0.1.0"
+description = "Typed Python client for the Squid Router API (Axelar-powered cross-chain swap & bridge aggregator)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "robertruben98" }]
+keywords = [
+    "squid",
+    "squidrouter",
+    "axelar",
+    "cross-chain",
+    "bridge",
+    "swap",
+    "defi",
+    "web3",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx>=0.24",
+    "pydantic>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/robertruben98/squidrouter-py"
+Repository = "https://github.com/robertruben98/squidrouter-py"
+Documentation = "https://docs.squidrouter.com"
+Issues = "https://github.com/robertruben98/squidrouter-py/issues"
+Changelog = "https://github.com/robertruben98/squidrouter-py/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.23",
+    "respx>=0.20",
+    "mypy>=1.8",
+    "ruff>=0.4",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/squidrouter"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/squidrouter", "README.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
+# Squid client must run on Python 3.9 at runtime: keep typing.Optional/Union in
+# annotations instead of PEP 604 `X | None`.
+ignore = ["UP007", "UP045"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src/squidrouter"]
+warn_unused_configs = true
